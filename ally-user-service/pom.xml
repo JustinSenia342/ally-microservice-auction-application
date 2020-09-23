@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.justinsenia</groupId>
-	<artifactId>ally-simple-auction-app</artifactId>
+	<artifactId>ally-user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ally-simple-auction-app</name>
+	<name>ally-user-service</name>
 	<description>REST Microservice Auction Application: uses - Java, Spring Boot, Maven, Ribbon, Eureka</description>
 
 	<properties>
