@@ -15,6 +15,6 @@ import com.justinsenia.ally_user_service.model.User;
 // Repository which extends a Jpa Repository using a User DAO Object 
 @Repository 
 public interface UserRepository extends JpaRepository<User, Long>{
-	@Query("SELECT u FROM User u WHERE u.username = :username")
-	public User getUserByUsername(@Param("username") String username);
+	//@Query("SELECT u FROM User u WHERE u.username = :username")
+	//public User getUserByUsername(@Param("username") String username);
 }

@@ -47,14 +47,6 @@ public class User {
 	@Getter @Setter
 	private String emailAddress;
 	
-	@Column(name = "role", nullable = false)
-	@Getter @Setter
-	private String role;
-	
-	@Column(name = "enabled", nullable = false)
-	@Getter @Setter
-	private boolean enabled;
-	
 	@Column(name = "created_at", nullable = false)
 	@Getter @Setter
 	@CreatedDate
