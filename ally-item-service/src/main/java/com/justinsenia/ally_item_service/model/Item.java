@@ -23,7 +23,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-// User model DAO Class
 
 @Entity
 @Table(name = "items")

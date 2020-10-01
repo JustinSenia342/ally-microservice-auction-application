@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.justinsenia.ally_auction_service.model.Auction;
+import com.justinsenia.ally_auction_service.model.Item;
 import com.justinsenia.ally_auction_service.AllyAuctionServiceApplication;
 
 @ExtendWith(SpringExtension.class)
@@ -57,28 +58,32 @@ public class AllyAuctionServiceApplicationTests {
     @Test
     public void testGetAuctionById() {
         Auction auction = restTemplate.getForObject(getRootUrl() + "/auction/1", Auction.class);
-        System.out.println(auction.getAuctionTitle());
+        System.out.println(auction.getReservePrice());
         Assertions.assertNotNull(auction);
     }
 
     @Test
     public void testCreateAuction() {
         Auction auction = new Auction();
-        auction.setAuctionTitle("testAuctionTitle");
-        auction.setAuctionDescription ("TestAuctionDescription");
-        auction.setSellerName("TestSeller");
-        auction.setReservePrice(777.77);
-        auction.setStartDate(new Date());
-        auction.setEndDate(new Date());
-        auction.setStartingBid(222.22);
+        Item item = new Item();
+        
+        item.setItemId("Test-itemId");
+        item.setDescription("Test-itemDescription");
+        item.setCreatedAt(new Date());
+        item.setCreatedBy("Test-createdBy (Item)");
+        item.setUpdatedAt(new Date());
+        item.setUpdatedBy("Test-createdBy (Item)");
+        
         auction.setCurrentBid(333.33);
-        auction.setHighestBidderId(23);
-        auction.setHighestBidderUsername("TestHighestBidderId");
-        auction.setMaxAutoBidAmount(555.55);
-        auction.setCreatedBy("adminuser");
-        auction.setUpdatedBy("adminuser");
-        auction.setUpdatedAt(new Date());
-        auction.setCreatedAt(new Date());
+		auction.setBidderName("Test-BidderName");
+		auction.setReservePrice(777.77);
+		auction.setItemId("Test-itemId");
+		auction.setDescription("Test-description");
+		//auction.setItem(item);
+		auction.setCreatedAt(new Date());
+		auction.setCreatedBy("Test-CreatedBy (Auction)");
+		auction.setUpdatedAt(new Date());
+		auction.setUpdatedBy("Test-UpdatedBy (Auction)");
 
         ResponseEntity<Auction> postResponse = restTemplate.postForEntity(getRootUrl() + "/auctions", auction, Auction.class);
         Assertions.assertNotNull(postResponse);
@@ -89,14 +94,11 @@ public class AllyAuctionServiceApplicationTests {
     public void testUpdatePost() {
          int id = 1;
          Auction auction = restTemplate.getForObject(getRootUrl() + "/auctions/" + id, Auction.class);
-         auction.setAuctionTitle("testAuctionTitle");
-         auction.setAuctionDescription ("TestAuctionDescription");
-         auction.setCurrentBid(333.33);
-         auction.setHighestBidderId(23);
-         auction.setHighestBidderUsername("TestHighestBidderId");
-         auction.setMaxAutoBidAmount(555.55);
-         auction.setUpdatedBy("adminuser");
-         auction.setUpdatedAt(new Date());
+         
+         auction.setCurrentBid(888.88);
+  		 auction.setBidderName("Test-bidderName");
+  		 auction.setUpdatedAt(new Date());
+  		 auction.setUpdatedBy("Test-updatedBy");
 
          restTemplate.put(getRootUrl() + "/auctions/" + id, auction);
 
