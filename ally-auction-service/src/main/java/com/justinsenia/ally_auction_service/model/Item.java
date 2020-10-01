@@ -32,17 +32,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonIgnoreProperties(value = {
-		"item",
-		"auction",
-	    "createdAt",
-	    "createdBy",
-	    "updatedAt",
-	    "updatedBy"
+		"item"
 	})
 
 @Entity
 @Table(name = "item")
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Item{
 
@@ -50,30 +45,35 @@ public class Item{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "item")
+	@Column(name = "item", nullable = false)
 	@Getter @Setter
 	private long item;
 	
-	@Column(name = "item_id")
+	@Column(name = "item_id", nullable = false, length = 100)
 	@Getter @Setter
 	private String itemId;
 	
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition="TEXT NOT NULL", nullable = false)
 	@Getter @Setter
 	private String description;
+	
+	//@OneToOne(mappedBy = "item", fetch = FetchType.LAZY,
+    //        cascade = CascadeType.ALL)
+    //private Auction auction;
 	
 	//@Getter @Setter
 	//@ManyToOne(fetch = FetchType.LAZY, targetEntity=Auction.class)
     //private Auction auction;
 	
-	@Getter @Setter
-	@OneToOne(fetch = FetchType.LAZY, targetEntity=Auction.class)
-    private Auction auction;
+	//@Getter @Setter
+	//@OneToOne(fetch = FetchType.LAZY, targetEntity=Auction.class)
+    //private Auction auction;
 	
 	//@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "item")
 	//@Getter @Setter
 	//private Auction auction;
 
+	/*
 	@Column(name = "created_at")
 	@Getter @Setter
 	@CreatedDate
@@ -93,21 +93,17 @@ public class Item{
 	@Getter @Setter
 	@LastModifiedBy
 	private String updatedBy;
+	*/
 	
 	public Item() {
 		
 	}
 
-	public Item(long item, String itemId, String description, Date createdAt, String createdBy, Date updatedAt,
-			String updatedBy) {
+	public Item(long item, String itemId, String description) {
 		super();
 		this.item = item;
 		this.itemId = itemId;
 		this.description = description;
-		this.createdAt = createdAt;
-		this.createdBy = createdBy;
-		this.updatedAt = updatedAt;
-		this.updatedBy = updatedBy;
 	}
 	
 }

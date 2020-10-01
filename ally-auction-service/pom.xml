@@ -56,6 +56,11 @@
 		</dependency>
 		
 		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-envers</artifactId>
+		</dependency>
+		
+		<dependency>
 		  <groupId>org.junit.jupiter</groupId>
 		  <artifactId>junit-jupiter-api</artifactId>
 		  <scope>test</scope>

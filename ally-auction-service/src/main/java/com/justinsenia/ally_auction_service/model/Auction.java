@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -35,21 +37,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonIgnoreProperties(value = {
-	    "createdAt",
-	    "createdBy",
-	    "updatedAt",
-	    "updatedBy"
+		"maxAutoBidAmount"
 	})
 
 @Entity
 @Table(name = "auction")
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Auction{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "auction_item_id")
+	@Column(name = "auction_item_id", nullable = false)
 	@Getter @Setter
 	private long auctionItemId;
 	
@@ -59,21 +58,24 @@ public class Auction{
 	//@Getter @Setter
 	//private long auctionItemId;
 	
-	@Column(name = "current_bid")
+	@Audited
+	@Column(name = "current_bid", nullable = false, precision = 14, scale = 2)
 	@Getter @Setter
-	private double currentBid;
+	private BigDecimal currentBid;
 	
-	@Column(name = "bidder_name")
+	@Audited
+	@Column(name = "bidder_name", length = 50)
 	@Getter @Setter
 	private String bidderName;
 	
-	@Column(name = "max_auto_bid_amount")
+	@Audited
+	@Column(name = "max_auto_bid_amount", precision = 14, scale = 2)
 	@Getter @Setter
-	private double maxAutoBidAmount;
+	private BigDecimal maxAutoBidAmount;
 	
-	@Column(name = "reserve_price")
+	@Column(name = "reserve_price", nullable = false, precision = 14, scale = 2)
 	@Getter @Setter
-	private double reservePrice;
+	private BigDecimal reservePrice;
 	
 	//@Getter @Setter
 	//@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -84,18 +86,24 @@ public class Auction{
 	//private Item item = new Item();
 	
 	//***This one
-	//@Column(name = "item")
+	//@Column(name = "item", nullable = false)
 	//@Getter @Setter
+	//private Item item;
 	//private Item item = new Item();
 	
-	//***Temp Alts
-	@Column(name = "item_id")
 	@Getter @Setter
-	private String itemId;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "item", nullable = false)
+    private Item item;
 	
-	@Column(name = "description")
-	@Getter @Setter
-	private String description;
+	//***Temp Alts
+	//@Column(name = "item_id", nullable = false)
+	//@Getter @Setter
+	//private String itemId;
+	
+	//@Column(name = "description", nullable = false)
+	//@Getter @Setter
+	//private String description;
 	
 	
 	//@Getter @Setter
@@ -104,8 +112,8 @@ public class Auction{
     //private Item item;
 	
 
-	
-	@Column(name = "created_at")
+	/*
+	@Column(name = "created_at", nullable = false)
 	@Getter @Setter
 	@CreatedDate
 	private Date createdAt;
@@ -115,7 +123,7 @@ public class Auction{
 	@CreatedBy
 	private String createdBy;
 	
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", nullable = false)
 	@Getter @Setter
 	@LastModifiedDate
 	private Date updatedAt;
@@ -125,11 +133,24 @@ public class Auction{
 	@LastModifiedBy
 	private String updatedBy;
 	
+	*/
+	
 	public Auction() {
 		
 	}
 
-	public Auction(long auctionItemId, double currentBid, String bidderName, double maxAutoBidAmount, double reservePrice, String itemId,
+	public Auction(long auctionItemId, BigDecimal currentBid, String bidderName, BigDecimal maxAutoBidAmount,
+			BigDecimal reservePrice, Item item) {
+		super();
+		this.auctionItemId = auctionItemId;
+		this.currentBid = currentBid;
+		this.bidderName = bidderName;
+		this.maxAutoBidAmount = maxAutoBidAmount;
+		this.reservePrice = reservePrice;
+		this.item = item;
+	}
+
+	/*public Auction(long auctionItemId, double currentBid, String bidderName, double maxAutoBidAmount, double reservePrice, String itemId,
 			String description, Date createdAt, String createdBy, Date updatedAt, String updatedBy) {
 		super();
 		this.auctionItemId = auctionItemId;
@@ -143,7 +164,8 @@ public class Auction{
 		this.createdBy = createdBy;
 		this.updatedAt = updatedAt;
 		this.updatedBy = updatedBy;
-	}
+	}*/
+	
 
 
 
