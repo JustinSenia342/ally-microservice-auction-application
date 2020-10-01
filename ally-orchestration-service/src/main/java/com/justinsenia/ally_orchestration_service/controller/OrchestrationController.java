@@ -28,8 +28,6 @@ import com.google.common.net.MediaType;
 import com.justinsenia.ally_orchestration_service.bean.AuctionBean;
 import com.justinsenia.ally_orchestration_service.bean.BidBean;
 import com.justinsenia.ally_orchestration_service.proxy.AuctionServiceProxy;
-import com.justinsenia.ally_orchestration_service.bean.ItemBean;
-import com.justinsenia.ally_orchestration_service.proxy.ItemServiceProxy;
 
 import lombok.Getter;
 import lombok.Setter;
