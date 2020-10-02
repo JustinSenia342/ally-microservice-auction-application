@@ -35,6 +35,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler(value = NewHighBidderByDefaultException.class)
+	public ResponseEntity<?> newHighBidderByDefaultException(NewHighBidderByDefaultException ex, WebRequest request) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+	}
+	
 	@ExceptionHandler(value = ReserveNotMetException.class)
 	public ResponseEntity<?> reserveNotMetException(ReserveNotMetException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));

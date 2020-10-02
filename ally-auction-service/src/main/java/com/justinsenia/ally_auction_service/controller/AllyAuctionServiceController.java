@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.justinsenia.ally_auction_service.exception.BidIsTooLowException;
 import com.justinsenia.ally_auction_service.exception.ImmediateOutbidException;
+import com.justinsenia.ally_auction_service.exception.NewHighBidderByDefaultException;
 import com.justinsenia.ally_auction_service.exception.NewHighBidderException;
 import com.justinsenia.ally_auction_service.exception.ReserveNotMetException;
 import com.justinsenia.ally_auction_service.exception.ResourceNotFoundException;
@@ -38,10 +39,8 @@ public class AllyAuctionServiceController {
     private AuctionService auctionService;
 	
 	
-	
-	/********************************************************/
-	
-	// POST /auctionItems
+	// POST /auctionItems ***********************************************
+	// Creates a new auction, returns the newly created auction Id in Json Format
 	@PostMapping("/auctionItems")
 	public Map<String, String> postNewAuction(@Valid @RequestBody Auction auction) {	
 			
@@ -61,7 +60,8 @@ public class AllyAuctionServiceController {
 	  }
 
 
-	// GET /auctionItems
+	// GET /auctionItems *************************************************
+	// Returns list of all auctions
 	@GetMapping("/auctionItems")
     public List<Auction> getAllAuctions() {
 		
@@ -69,18 +69,9 @@ public class AllyAuctionServiceController {
 		
     }
 	
-
-	// GET /auctionItems/{auctionItemId}
-	/*@GetMapping("/auctionItems/{auction_item_id}")
-    public ResponseEntity<Auction> getAuctionById(
-    @PathVariable(value = "auction_item_id") Long auctionId) throws ResourceNotFoundException {
-		Auction auction = auctionService.findById(auctionId)
-        .orElseThrow(() -> new ResourceNotFoundException("Auction not found on :: "+ auctionId));
-        
-        return ResponseEntity.ok().body(auction);
-    }*/
 	
-	// GET /auctionItems/{auctionItemId}
+	// GET /auctionItems/{auctionItemId} **********************************
+	// Returns a single auction 
 	@GetMapping("/auctionItems/{auction_item_id}")
     public Auction getAuctionById(
     @PathVariable(value = "auction_item_id") Long auctionId) throws ResourceNotFoundException {
@@ -92,10 +83,12 @@ public class AllyAuctionServiceController {
 
 	
 	// POST /bids *********************************************************
+	// Updates persisted database values with new bid information
+	// Additional logic is implemented to handle updating use-cases
 	@PostMapping("/bids")
 	public ResponseEntity<Auction> updateAuctionById(@Valid @RequestBody Bid bid, HttpServletRequest request)
 			throws ResourceNotFoundException, ImmediateOutbidException, ReserveNotMetException, 
-			UnhandledUseCaseException, NewHighBidderException, BidIsTooLowException {	
+			UnhandledUseCaseException, NewHighBidderException, BidIsTooLowException, NewHighBidderByDefaultException {	
   
 		Long auctionItemId = Long.valueOf(bid.getAuctionItemId());
 		Auction auction = auctionService.findById(auctionItemId)
@@ -110,14 +103,26 @@ public class AllyAuctionServiceController {
 		
 		if (newMaxAutoBidAmount.doubleValue() <= currentBid.doubleValue()) {
 			throw new BidIsTooLowException(
-					"Bid amount is invalid: Newly submitted bid is less than the current bid");
+					"Submitted bid amount is invalid: Newly submitted bid is less than the current bid");
+		}
+		
+		boolean isNewAuction = ( currentBid.doubleValue() == 0.00 ) ? true : false;
+		
+		if (isNewAuction == true) {
+			auction.setCurrentBid(oldMaxAutoBidAmount.add(BigDecimal.valueOf(1.00)));
+			auction.setMaxAutoBidAmount(newMaxAutoBidAmount);
+			auction.setBidderName(bid.getBidderName());
+			
+			auctionService.save(auction);
+	        throw new NewHighBidderByDefaultException( newBidderName +
+	        		" is the new high bidder for item #" + auction.getAuctionItemId() + 
+	        		" ( " + auction.getItem().getItemId() + " ) ");
 		}
 		
 		boolean isReservePriceMet = ( newMaxAutoBidAmount.doubleValue() > reservePrice.doubleValue() ) ? true : false;
 		
 		boolean isNewMaxGreater = ( newMaxAutoBidAmount.doubleValue() > oldMaxAutoBidAmount.doubleValue() + 1.00) ? true : false;
 		
-		//check for null values too
 		
 		if ( isReservePriceMet == true && isNewMaxGreater == true ) {
 			
@@ -126,8 +131,9 @@ public class AllyAuctionServiceController {
 			auction.setBidderName(bid.getBidderName());
 			
 	        auctionService.save(auction);
-	        throw new NewHighBidderException( oldBidderName + 
-	        		" Has been outbid on auction item #" + auction.getAuctionItemId() + 
+	        throw new NewHighBidderException( newBidderName +
+	        		" is the new high bidder! " + oldBidderName + 
+	        		" has been outbid on auction item #" + auction.getAuctionItemId() + 
 	        		" ( " + auction.getItem().getItemId() + " ) ");
 		
 		}
@@ -161,7 +167,7 @@ public class AllyAuctionServiceController {
 	        throw new ReserveNotMetException( newBidderName + 
 	        		" Is the current high bidder for auction item #" + 
 	        		auction.getAuctionItemId() + " ( " + auction.getItem().getItemId() + 
-	        		" ), but hasn't met the reserve ");
+	        		" ), but the reserve price hasn't been met yet.");
 	        
 		}
 		else {
@@ -169,9 +175,6 @@ public class AllyAuctionServiceController {
 			
 		}
 		
-        
 	}
 
-	
-	
 }
