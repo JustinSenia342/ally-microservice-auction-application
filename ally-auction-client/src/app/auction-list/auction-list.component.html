@@ -1,0 +1,30 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2>Auction List</h2>
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>AuctionItemId</th>
+          <th>CurrentBid</th>
+          <th>BidderName</th>
+		  <th>ReservePrice</th>
+		  <th>ItemId</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let auction of auctions | async">
+          <td>{{auction.auctionItemId}}</td>
+          <td>{{auction.currentBid}}</td>
+          <td>{{auction.bidderName}}</td>
+          <td>{{auction.reservePrice}}</td>
+          <td>{{auction.itemId}}</td>
+          <td>
+              <button (click)="auctionDetails(auction.auctionItemId)" class="btn btn-info" style="margin-left: 10px">Details</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

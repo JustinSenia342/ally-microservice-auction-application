@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+        <a routerLink="auctions" class="nav-link" routerLinkActive="active">Auction List</a>
+    </li>
+    <li class="nav-item">
+        <a routerLink="add" class="nav-link" routerLinkActive="active">Add Auction</a>
+    </li>
+	<li class="nav-item">
+        <a routerLink="view" class="nav-link" routerLinkActive="active">View Auction</a>
+    </li>
+	<li class="nav-item">
+        <a routerLink="bid" class="nav-link" routerLinkActive="active">Bidding</a>
+    </li>
+  </ul>
+</nav>
+<div class="container">
+  <br>
+  <h2 style="text-align: center;">{{title}}</h2>
+  <hr>  
+  <div class="card">
+    <div class="card-body">
+  <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+  </div>
+</footer>

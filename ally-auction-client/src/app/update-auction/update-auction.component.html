@@ -1,0 +1,21 @@
+<h3>Make New Bid</h3>
+<div style="width: 400px;">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Auction Item Id</label>
+      <input type="text" class="form-control" id="auctionItemId" required [(ngModel)]="auction.auctionItemId" name="auctionItemId">
+    </div>
+
+	<div class="form-group">
+      <label for="name">Max Auto Bid Amount</label>
+      <input type="text" class="form-control" id="maxAutoBidAmount" required [(ngModel)]="auction.maxAutoBidAmount" name="maxAutoBidAmount">
+    </div>
+	
+	<div class="form-group">
+      <label for="name">Bidder Name</label>
+      <input type="text" class="form-control" id="bidderName" required [(ngModel)]="auction.bidderName" name="bidderName">
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>
