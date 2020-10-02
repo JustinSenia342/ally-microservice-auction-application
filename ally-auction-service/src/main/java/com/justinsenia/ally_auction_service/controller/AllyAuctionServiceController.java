@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ import com.justinsenia.ally_auction_service.model.Auction;
 import com.justinsenia.ally_auction_service.model.Bid;
 import com.justinsenia.ally_auction_service.service.AuctionService;
 
-@RestController
+@RestController @CrossOrigin(origins = "http://localhost:4200")
 //@RequestMapping(path="/api/v1")
 public class AllyAuctionServiceController {
 	
