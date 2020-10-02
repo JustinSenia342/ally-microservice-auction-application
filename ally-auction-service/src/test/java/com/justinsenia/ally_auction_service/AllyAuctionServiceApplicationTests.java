@@ -46,6 +46,8 @@ public class AllyAuctionServiceApplicationTests {
 
     @Test
     public void testGetAllAuctions() {
+    	
+    	// get /auctionItems
          HttpHeaders headers = new HttpHeaders();
          HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
@@ -57,6 +59,8 @@ public class AllyAuctionServiceApplicationTests {
 
     @Test
     public void testGetAuctionById() {
+    	
+    	// get /auctionItems/{auction_item_id}
         Auction auction = restTemplate.getForObject(getRootUrl() + "/auction/1", Auction.class);
         System.out.println(auction.getReservePrice());
         Assertions.assertNotNull(auction);
@@ -64,6 +68,9 @@ public class AllyAuctionServiceApplicationTests {
 /*
     @Test
     public void testCreateAuction() {
+    	
+    	//post /auctionItems
+    	
         //Auction auction = new Auction();
         //Item item = new Item();
         
@@ -88,10 +95,14 @@ public class AllyAuctionServiceApplicationTests {
         ResponseEntity<Auction> postResponse = restTemplate.postForEntity(getRootUrl() + "/auctions", auction, Auction.class);
         Assertions.assertNotNull(postResponse);
         Assertions.assertNotNull(postResponse.getBody());
-    }
-*/
+        
+    }*/
+
     @Test
     public void testUpdatePost() {
+    	
+    	// post /bids
+    	
          int id = 1;
          Auction auction = restTemplate.getForObject(getRootUrl() + "/auctions/" + id, Auction.class);
          

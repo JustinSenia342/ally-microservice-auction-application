@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.justinsenia.ally_auction_service.exception.ResourceNotFoundException;
 import com.justinsenia.ally_auction_service.model.Auction;
 import com.justinsenia.ally_auction_service.repository.AuctionRepository;
 
@@ -15,8 +16,12 @@ public class AuctionServiceImpl implements AuctionService {
 	@Autowired
 	private AuctionRepository auctionRepository;
 	
+	
 	@Override
-	public Optional<Auction> findById(Long id) {
+	public Optional<Auction> findById(Long id) throws IllegalArgumentException {
+		if (id == null)
+			throw new IllegalArgumentException("Auction not found on :: "+ id);
+		
 		return auctionRepository.findById(id);
 	}
 	
@@ -31,8 +36,11 @@ public class AuctionServiceImpl implements AuctionService {
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(Long id) throws IllegalArgumentException {
+		if (id == null)
+		throw new IllegalArgumentException("Auction not found on :: "+ id);
+		
 		auctionRepository.deleteById(id);
 	}
-
+	
 }

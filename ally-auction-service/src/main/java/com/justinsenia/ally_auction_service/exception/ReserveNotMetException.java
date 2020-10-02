@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 //@ResponseStatus(value = HttpStatus.RESERVE_NOT_MET, reason="To show an example of a custom message")
-public class NotMetReserveException extends Exception{
+public class ReserveNotMetException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 	
-	public NotMetReserveException(String message) {
+	public ReserveNotMetException(String message) {
 		super(message);
 	}
 }
