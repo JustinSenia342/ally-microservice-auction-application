@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Auction } from '../auction';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AuctionService } from '../auction.service';
+import { Auction } from '../auction';
+import { Bid } from '../bid';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+//import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-auction',
@@ -11,37 +14,40 @@ import { AuctionService } from '../auction.service';
 export class UpdateAuctionComponent implements OnInit {
 
   auctionItemId: number;
-  auction: Auction;
+  bid: Bid;
+  submitted = false;
 
-  constructor(private route: ActivatedRoute,private router: Router,
-    private auctionService: AuctionService) { }
+  constructor(private auctionService: AuctionService,
+  private router: Router) { }
 
   ngOnInit() {
-    this.auction = new Auction();
+	
+	this.bid = new Bid();
 
-    this.auctionItemId = this.route.snapshot.params['auctionItemId'];
-    
-    this.auctionService.getAuctionById(this.auctionItemId)
-      .subscribe(data => {
-        console.log(data)
-        this.auction = data;
-      }, error => console.log(error));
+  }
+
+  newBid(): void {
+    this.submitted = false;
+    //this.bid = new Bid();
   }
 
   updateAuction() {
-    this.auctionService.updateAuctionById(this.auctionItemId)
-      .subscribe(data => {
-        console.log(data);
-        this.auction = new Auction();
-        this.gotoList();
-      }, error => console.log(error));
+
+	  this.auctionService.updateAuctionById(this.bid)
+		.subscribe(data => {
+	    console.log(data);
+	    this.bid = new Bid();
+	    this.gotoList();
+	  }, error => console.log(error));
+
   }
 
   onSubmit() {
-    this.updateAuction();    
+	this.submitted = true;
+    this.updateAuction();
   }
 
   gotoList() {
-    this.router.navigate(['/auctions']);
+    this.router.navigate(['/view']);
   }
 }

@@ -15,7 +15,7 @@ import { UpdateAuctionComponent } from './update-auction/update-auction.componen
     CreateAuctionComponent,
     AuctionDetailsComponent,
     AuctionListComponent,
-    UpdateAuctionComponent,
+    UpdateAuctionComponent
   ],
   imports: [
     BrowserModule,

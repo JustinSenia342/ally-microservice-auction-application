@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import com.justinsenia.ally_auction_service.model.Auction;
 import com.justinsenia.ally_auction_service.model.Item;
-import com.justinsenia.ally_auction_service.AllyAuctionServiceApplication;
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AllyAuctionServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -62,59 +63,58 @@ public class AllyAuctionServiceApplicationTests {
     	
     	// get /auctionItems/{auction_item_id}
         Auction auction = restTemplate.getForObject(getRootUrl() + "/auction/1", Auction.class);
-        System.out.println(auction.getReservePrice());
         Assertions.assertNotNull(auction);
     }
-/*
+
     @Test
     public void testCreateAuction() {
     	
     	//post /auctionItems
     	
-        //Auction auction = new Auction();
-        //Item item = new Item();
+        Auction auction = new Auction();
+        Item item = new Item();
         
         item.setItemId("Test-itemId");
-        item.setDescription("Test-itemDescription");
-        item.setCreatedAt(new Date());
-        item.setCreatedBy("Test-createdBy (Item)");
-        item.setUpdatedAt(new Date());
-        item.setUpdatedBy("Test-createdBy (Item)");
+        item.setDescription("Test-description");
         
-        auction.setCurrentBid(333.33);
-		auction.setBidderName("Test-BidderName");
-		auction.setReservePrice(777.77);
-		//auction.setItemId("Test-itemId");
-		//auction.setDescription("Test-description");
+        auction.setReservePrice(BigDecimal.valueOf(777.77));
+        auction.setCurrentBid(BigDecimal.valueOf(0.00));
+		auction.setBidderName("");
+		auction.setMaxAutoBidAmount(BigDecimal.valueOf(0.00));
+		auction.setReservePrice(auction.getReservePrice());
 		auction.setItem(item);
-		auction.setCreatedAt(new Date());
-		auction.setCreatedBy("Test-CreatedBy (Auction)");
-		auction.setUpdatedAt(new Date());
-		auction.setUpdatedBy("Test-UpdatedBy (Auction)");
 
         ResponseEntity<Auction> postResponse = restTemplate.postForEntity(getRootUrl() + "/auctions", auction, Auction.class);
         Assertions.assertNotNull(postResponse);
         Assertions.assertNotNull(postResponse.getBody());
         
-    }*/
+    }
 
     @Test
     public void testUpdatePost() {
     	
     	// post /bids
     	
-         int id = 1;
-         Auction auction = restTemplate.getForObject(getRootUrl() + "/auctions/" + id, Auction.class);
+    	
+    	
+    	long auctionItemId = 1;
+    	
+    	Auction auction = restTemplate.getForObject(getRootUrl() + "/auctions/" + auctionItemId, Auction.class);
+        
+    	String bidderName = "Test-bidderName-999";
+    	BigDecimal maxAutoBidAmount = BigDecimal.valueOf(999.99);
          
-         //auction.setCurrentBid(888.88);
-  		 auction.setBidderName("Test-bidderName");
-  		 //auction.setUpdatedAt(new Date());
-  		 //auction.setUpdatedBy("Test-updatedBy");
+        auction.setBidderName("Test-bidderName-999");
+        auction.setMaxAutoBidAmount(BigDecimal.valueOf(999.99));
 
-         restTemplate.put(getRootUrl() + "/auctions/" + id, auction);
+        Assertions.assertThrows(NumberFormatException.class, () -> {
+        	 Integer.parseInt("One");
+        });
+          
+        restTemplate.put(getRootUrl() + "/auctions/" + auctionItemId, auction);
 
-         Auction updatedAuction = restTemplate.getForObject(getRootUrl() + "/auctions/" + id, Auction.class);
-         Assertions.assertNotNull(updatedAuction);
+        Auction updatedAuction = restTemplate.getForObject(getRootUrl() + "/auctions/" + auctionItemId, Auction.class);
+        Assertions.assertNotNull(updatedAuction);
     }
 
     @Test

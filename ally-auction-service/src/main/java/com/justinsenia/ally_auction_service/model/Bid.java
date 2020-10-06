@@ -19,11 +19,13 @@ public class Bid {
 	@Size (min = 1)
 	private String auctionItemId;
 	
+	@Size (min = 1, max = 50)
+	private String bidderName;
+	
 	@DecimalMin("0.00")
 	@DecimalMax("999999999999.99")
 	private BigDecimal maxAutoBidAmount;
 	
-	@Size (min = 1, max = 50)
-	private String bidderName;
+	
 	
 }

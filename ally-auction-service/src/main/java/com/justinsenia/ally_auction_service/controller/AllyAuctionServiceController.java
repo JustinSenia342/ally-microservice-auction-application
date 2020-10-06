@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,25 +75,43 @@ public class AllyAuctionServiceController {
 	// Returns a single auction 
 	@GetMapping("/auctionItems/{auction_item_id}")
     public Auction getAuctionById(
-    @PathVariable(value = "auction_item_id") Long auctionId) throws ResourceNotFoundException {
-		Auction auction = auctionService.findById(auctionId)
-        .orElseThrow(() -> new ResourceNotFoundException("Auction not found on :: "+ auctionId));
+    @PathVariable(value = "auction_item_id") Long auctionItemId) throws ResourceNotFoundException {
+		Auction auction = auctionService.findById(auctionItemId)
+        .orElseThrow(() -> new ResourceNotFoundException("Auction not found on :: "+ auctionItemId));
 		
         return auction;
     }
+	
+	// Post /auctionItems/id **********************************
+	// Returns a single auction 
+	//@PostMapping("/auctionItems/id")
+    //public Auction getAuctionByIdPost(
+	//public Auction getAuctionByIdPost(@Valid @RequestBody Long auctionItemId)
+	//		throws ResourceNotFoundException {
+	//	Auction auction = auctionService.findById(auctionItemId)
+	//	        .orElseThrow(() -> new ResourceNotFoundException("Auction not found on :: "+ auctionItemId));
+				
+	//	        return auction;
+	//}
 
 	
 	// POST /bids *********************************************************
 	// Updates persisted database values with new bid information
 	// Additional logic is implemented to handle updating use-cases
 	@PostMapping("/bids")
-	public ResponseEntity<Auction> updateAuctionById(@Valid @RequestBody Bid bid, HttpServletRequest request)
+	public void updateAuctionById(@Valid @RequestBody Bid bid)
 			throws ResourceNotFoundException, ImmediateOutbidException, ReserveNotMetException, 
 			UnhandledUseCaseException, NewHighBidderException, BidIsTooLowException, NewHighBidderByDefaultException {	
   
 		Long auctionItemId = Long.valueOf(bid.getAuctionItemId());
 		Auction auction = auctionService.findById(auctionItemId)
 				.orElseThrow(() -> new ResourceNotFoundException("Auction not found on :: "+ auctionItemId));
+		
+		
+//		Test Return statement
+		//Map<String, String> uriVariables = new HashMap<>();
+		//uriVariables.put("auctionItemId", Long.toString(auction.getAuctionItemId()));	
+		
 		        
 		BigDecimal currentBid = auction.getCurrentBid();
 		BigDecimal reservePrice = auction.getReservePrice();
@@ -111,7 +130,7 @@ public class AllyAuctionServiceController {
 		if (isNewAuction == true) {
 			auction.setCurrentBid(oldMaxAutoBidAmount.add(BigDecimal.valueOf(1.00)));
 			auction.setMaxAutoBidAmount(newMaxAutoBidAmount);
-			auction.setBidderName(bid.getBidderName());
+			auction.setBidderName(newBidderName);
 			
 			auctionService.save(auction);
 	        throw new NewHighBidderByDefaultException( newBidderName +
@@ -128,7 +147,7 @@ public class AllyAuctionServiceController {
 			
 			auction.setCurrentBid(oldMaxAutoBidAmount.add(BigDecimal.valueOf(1.00)));
 			auction.setMaxAutoBidAmount(newMaxAutoBidAmount);
-			auction.setBidderName(bid.getBidderName());
+			auction.setBidderName(newBidderName);
 			
 	        auctionService.save(auction);
 	        throw new NewHighBidderException( newBidderName +
@@ -160,7 +179,7 @@ public class AllyAuctionServiceController {
 		if ( isReservePriceMet == false && isNewMaxGreater == true ) {
 			auction.setCurrentBid(newMaxAutoBidAmount);
 			auction.setMaxAutoBidAmount(newMaxAutoBidAmount);
-			auction.setBidderName(bid.getBidderName());
+			auction.setBidderName(newBidderName);
 
 	        auctionService.save(auction);
 
@@ -176,5 +195,17 @@ public class AllyAuctionServiceController {
 		}
 		
 	}
+	
+	@DeleteMapping("/auctionItems/{auction_item_id}")
+    public Map<String, Boolean> deleteAuctionById(@PathVariable(value = "auction_item_id") Long auctionItemId)
+         throws ResourceNotFoundException {
+        Auction auction = auctionService.findById(auctionItemId)
+       .orElseThrow(() -> new ResourceNotFoundException("Auction not found for this id :: " + auctionItemId));
+
+        auctionService.delete(auctionItemId);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
 
 }

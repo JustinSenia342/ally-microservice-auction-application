@@ -27,9 +27,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonIgnoreProperties(value = {
-		"maxAutoBidAmount"
-	})
+//@JsonIgnoreProperties(value = {
+//		"maxAutoBidAmount"
+//	})
 
 @Entity
 @Table(name = "auction")
@@ -62,7 +62,7 @@ public class Auction{
 	@Audited
 	@Column(name = "max_auto_bid_amount", precision = 14, scale = 2,
 			columnDefinition = "DECIMAL")
-	@Value("Default 0.00")
+	@Value("0.00")
 	@DecimalMin("0.00")
 	@DecimalMax("999999999999.99")
 	@Getter @Setter
