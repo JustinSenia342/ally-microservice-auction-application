@@ -1,0 +1,29 @@
+<h3>Auction Details</h3> 
+
+<hr/>
+<div *ngIf="auction">
+  <div>
+    <label><b>Auction Item Id: </b></label> {{auction.auctionItemId}}
+  </div>
+  <div>
+    <label><b>Current Bid: </b></label> {{auction.currentBid | number:'1.2-2' }}
+  </div>
+  <div>
+    <label><b>Bidder Name: </b></label> {{auction.bidderName}}
+  </div>
+  <div>
+    <label><b>Reserve Price: </b></label> {{auction.reservePrice | number:'1.2-2' }}
+  </div>
+  <div>
+    <label><b>Item Title: </b></label> {{auction.item.itemId}}
+  </div>
+  <div>
+    <label><b>Description: </b></label> {{auction.item.description}}
+  </div>  
+</div>
+
+
+
+<br>
+<br>
+<button (click)="list()" class="btn btn-primary">Back to Auction List</button><br>
