@@ -9,11 +9,9 @@ const routes: Routes = [
   { path: '', redirectTo: 'auction', pathMatch: 'full' },
   { path: 'auctions', component: AuctionListComponent },
   { path: 'add', component: CreateAuctionComponent },
-  //{ path: 'update/:id', component: UpdateAuctionComponent },
   { path: 'bid', component: UpdateAuctionComponent },
-  //{ path: 'details/:id', component: AuctionDetailsComponent },
-  { path: 'view/:auctionItemId', component: AuctionDetailsComponent },
   { path: 'view', component: AuctionDetailsComponent },
+  { path: 'view/:auctionItemId', component: AuctionDetailsComponent }
 ];
 
 @NgModule({

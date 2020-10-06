@@ -22,21 +22,6 @@ export class AuctionDetailsComponent implements OnInit {
     this.auction = new Auction();
 
     this.auctionItemId = this.route.snapshot.params['auctionItemId'];
-    
-	//getAuctionDetails() {
-    //this.auctionService
-    //.getAuctionById(this.auctionItemId).subscribe(data => {
-    //  console.log(data)
-    //  this.auction = new Auction();
-    //  this.gotoList();
-    //}, 
-    //error => console.log(error));
-  //}
-	
-	//onSubmit() {
-    //this.submitted = true;
-    //this.getAuctionDetails();    
-    //}
 	
     this.auctionService.getAuctionById(this.auctionItemId)
       .subscribe(data => {

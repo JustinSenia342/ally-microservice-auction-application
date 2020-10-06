@@ -11,17 +11,21 @@
           <th>BidderName</th>
 		  <th>ReservePrice</th>
 		  <th>ItemId</th>
+		  <th>Description</th>
+		  <th>Navigation</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let auction of auctions | async">
           <td>{{auction.auctionItemId}}</td>
-          <td>{{auction.currentBid}}</td>
+          <td>{{auction.currentBid | number:'1.2-2' }}</td>
           <td>{{auction.bidderName}}</td>
-          <td>{{auction.reservePrice}}</td>
-          <td>{{auction.itemId}}</td>
+          <td>{{auction.reservePrice | number:'1.2-2' }}</td>
+          <td>{{auction.item.itemId}}</td>
+          <td>{{auction.item.description}}</td>
           <td>
-              <button (click)="auctionDetails(auction.auctionItemId)" class="btn btn-info" style="margin-left: 10px">Details</button>
+              <button (click)="auctionDetails(auction.auctionItemId)" class="btn btn-info">Details</button>
+              <button (click)="deleteAuction(auction.auctionItemId)" class="btn btn-info" style="margin-left: 2px">Delete</button>
           </td>
         </tr>
       </tbody>
