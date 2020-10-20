@@ -1,10 +1,11 @@
 package com.justinsenia.ally_auction_service.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import com.justinsenia.ally_auction_service.exception.ResourceNotFoundException;
 import com.justinsenia.ally_auction_service.model.Auction;
+import com.justinsenia.ally_auction_service.model.Bid;
 
 public interface AuctionService {
 
@@ -14,6 +15,6 @@ public interface AuctionService {
 	
 	List <Auction> findAll();
 
-	void delete(Long id) throws IllegalArgumentException;
+	Map<String, String> makeBid(Auction auction, Bid bid);
 	
 }
