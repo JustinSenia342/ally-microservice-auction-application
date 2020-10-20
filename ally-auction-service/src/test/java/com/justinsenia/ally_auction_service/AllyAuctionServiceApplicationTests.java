@@ -1,26 +1,19 @@
 package com.justinsenia.ally_auction_service;
 
+import java.math.BigDecimal;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import static org.mockito.Mockito.when;
-
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.justinsenia.ally_auction_service.model.Auction;
 import com.justinsenia.ally_auction_service.model.Item;
@@ -35,7 +28,8 @@ public class AllyAuctionServiceApplicationTests {
 
     @LocalServerPort
     private int port;
-
+    
+    
     private String getRootUrl() {
         return "http://localhost:" + port;
     }
@@ -45,10 +39,11 @@ public class AllyAuctionServiceApplicationTests {
 
     }
 
+    
+    // get /auctionItems
     @Test
-    public void testGetAllAuctions() {
+    public void getAllAuctions_AuctionsExistInDatabase_ReturnsListOfAuctions() {
     	
-    	// get /auctionItems
          HttpHeaders headers = new HttpHeaders();
          HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
@@ -58,18 +53,19 @@ public class AllyAuctionServiceApplicationTests {
          Assertions.assertNotNull(response.getBody());
     }
 
+    
+    // get /auctionItems/{auction_item_id}
     @Test
-    public void testGetAuctionById() {
+    public void getAuctionById_WithValidArgument_ReturnsSpecifiedAuction() {
     	
-    	// get /auctionItems/{auction_item_id}
         Auction auction = restTemplate.getForObject(getRootUrl() + "/auction/1", Auction.class);
         Assertions.assertNotNull(auction);
     }
 
+    
+    //post /auctionItems
     @Test
-    public void testCreateAuction() {
-    	
-    	//post /auctionItems
+    public void postNewAuction_WithValidRequest_CreatesNewAuction() {
     	
         Auction auction = new Auction();
         Item item = new Item();
@@ -85,51 +81,19 @@ public class AllyAuctionServiceApplicationTests {
 		auction.setItem(item);
 
         ResponseEntity<Auction> postResponse = restTemplate.postForEntity(getRootUrl() + "/auctions", auction, Auction.class);
-        Assertions.assertNotNull(postResponse);
+        //Assertions.assertNotNull(postResponse);
         Assertions.assertNotNull(postResponse.getBody());
         
     }
 
+    
+    // post /bids
     @Test
-    public void testUpdatePost() {
+    public void updateAuctionById_WithValidRequest_UpdatesAuctionWithNewBid() throws Exception {
     	
-    	// post /bids
+    	// Tests Not implemented yet
     	
-    	
-    	
-    	long auctionItemId = 1;
-    	
-    	Auction auction = restTemplate.getForObject(getRootUrl() + "/auctions/" + auctionItemId, Auction.class);
-        
-    	String bidderName = "Test-bidderName-999";
-    	BigDecimal maxAutoBidAmount = BigDecimal.valueOf(999.99);
-         
-        auction.setBidderName("Test-bidderName-999");
-        auction.setMaxAutoBidAmount(BigDecimal.valueOf(999.99));
-
-        Assertions.assertThrows(NumberFormatException.class, () -> {
-        	 Integer.parseInt("One");
-        });
-          
-        restTemplate.put(getRootUrl() + "/auctions/" + auctionItemId, auction);
-
-        Auction updatedAuction = restTemplate.getForObject(getRootUrl() + "/auctions/" + auctionItemId, Auction.class);
-        Assertions.assertNotNull(updatedAuction);
     }
 
-    @Test
-    public void testDeletePost() {
-         int id = 2;
-         Auction auction = restTemplate.getForObject(getRootUrl() + "/auctions/" + id, Auction.class);
-         Assertions.assertNotNull(auction);
-
-         restTemplate.delete(getRootUrl() + "/auctions/" + id);
-    
-         try {
-              auction = restTemplate.getForObject(getRootUrl() + "/auctions/" + id, Auction.class);
-         } catch (final HttpClientErrorException e) {
-        	 Assertions.assertEquals(e.getStatusCode(), HttpStatus.NOT_FOUND);
-     }
-  }
 
 }

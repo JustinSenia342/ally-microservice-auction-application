@@ -14,37 +14,37 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = UnhandledUseCaseException.class)
 	public ResponseEntity<?> unhandledUseCaseException(UnhandledUseCaseException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorDetails, HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(value = BidIsTooLowException.class)
 	public ResponseEntity<?> bidIsTooLowException(BidIsTooLowException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorDetails, HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(value = ImmediateOutbidException.class)
 	public ResponseEntity<?> immediateOutbidException(ImmediateOutbidException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorDetails, HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(value = NewHighBidderException.class)
 	public ResponseEntity<?> newHighBidderException(NewHighBidderException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorDetails, HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(value = NewHighBidderByDefaultException.class)
 	public ResponseEntity<?> newHighBidderByDefaultException(NewHighBidderByDefaultException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorDetails, HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(value = ReserveNotMetException.class)
 	public ResponseEntity<?> reserveNotMetException(ReserveNotMetException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(errorDetails, HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(value = ResourceNotFoundException.class)
