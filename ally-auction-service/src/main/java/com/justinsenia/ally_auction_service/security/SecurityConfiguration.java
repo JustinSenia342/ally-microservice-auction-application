@@ -17,4 +17,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         
         Okta.configureResourceServer401ResponseBody(http);
     }
+    
 }
