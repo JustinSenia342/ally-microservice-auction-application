@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	// Helps configure security to lock down endpoints unless a user is
+	// authenticated using oauth2 provided by Okta.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
