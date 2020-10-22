@@ -6,6 +6,8 @@ import { HomeComponent } from './home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
 import { AuthInterceptor } from './shared/okta/auth.interceptor';
+import { AuctionListComponent } from './auction-list/auction-list.component';
+import { OktaAuthGuard } from '@okta/okta-angular';
 
 const oktaConfig = {
   issuer: 'https://dev-5184859.okta.com/oauth2/default',
@@ -14,15 +16,21 @@ const oktaConfig = {
   scopes: ['openid', 'profile']
 };
 
+
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+//  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/auctions', pathMatch: 'full' },
   {
+	//component: HomeComponent
     path: 'home',
-    component: HomeComponent
+	component: AuctionListComponent,
+	canActivate: [OktaAuthGuard]
   },
   {
+	//component: OktaCallbackComponent
     path: 'callback',
-    component: OktaCallbackComponent
+	component: AuctionListComponent,
+	canActivate: [OktaAuthGuard]
   }
 ];
 

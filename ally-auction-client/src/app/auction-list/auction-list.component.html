@@ -25,7 +25,8 @@
           <td>{{auction.item.description}}</td>
           <td>
               <button (click)="auctionDetails(auction.auctionItemId)" class="btn btn-info">Details</button>
-              <button (click)="deleteAuction(auction.auctionItemId)" class="btn btn-info" style="margin-left: 2px">Delete</button>
+              <button (click)="bidOnAuction(auction.auctionItemId)" class="btn btn-info" style="margin-left: 2px">Bid</button>
+              <!-- <button (click)="deleteAuction(auction.auctionItemId)" class="btn btn-info" style="margin-left: 2px">Delete</button> -->
           </td>
         </tr>
       </tbody>

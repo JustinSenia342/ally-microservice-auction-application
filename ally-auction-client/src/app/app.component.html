@@ -15,10 +15,9 @@
         <a routerLink="bid" class="nav-link" routerLinkActive="active">Bidding</a>
     </li>
 	<li class="nav-item">
-		<a *ngIf="!isAuthenticated" routerLink="login" class="nav-link" routerLinkActive="active">Login</a>
-		<a *ngIf="isAuthenticated" routerLink="login" class="nav-link" routerLinkActive="active">Login</a>
-		<button *ngIf="!isAuthenticated" (click)="oktaAuth.loginRedirect()">Login</button>
-        <button *ngIf="isAuthenticated" (click)="oktaAuth.logout()">Logout</button>
+		<a *ngIf="!isAuthenticated" routerLink="auctions" (click)="oktaAuth.loginRedirect()" class="nav-link" routerLinkActive="active">Login</a>
+		<a *ngIf="isAuthenticated" routerLink="home" (click)="oktaAuth.logout()" class="nav-link" routerLinkActive="active">Logout</a>
+		
 	</li>
   </ul>
 </nav>
@@ -28,10 +27,7 @@
   <hr>  
   <div class="card">
     <div class="card-body">
-    
-
-    
-  <router-outlet></router-outlet>
+		<router-outlet></router-outlet>
     </div>
   </div>
 </div>
