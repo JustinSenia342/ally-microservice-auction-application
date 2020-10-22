@@ -31,6 +31,10 @@ export class AuctionDetailsComponent implements OnInit {
   }
 
   list(){
-    this.router.navigate(['view']);
+    this.router.navigate(['auctions']);
+  }
+
+  bid(auctionItemId: number){
+	this.router.navigate(['bid', auctionItemId]);
   }
 }

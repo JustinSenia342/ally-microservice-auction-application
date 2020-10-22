@@ -4,14 +4,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuctionListComponent } from './auction-list/auction-list.component';
 import { UpdateAuctionComponent } from './update-auction/update-auction.component';
+import { OktaAuthGuard } from '@okta/okta-angular';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'auction', pathMatch: 'full' },
-  { path: 'auctions', component: AuctionListComponent },
-  { path: 'add', component: CreateAuctionComponent },
-  { path: 'bid', component: UpdateAuctionComponent },
-  { path: 'view', component: AuctionDetailsComponent },
-  { path: 'view/:auctionItemId', component: AuctionDetailsComponent }
+  { path: 'auctions', component: AuctionListComponent, canActivate: [OktaAuthGuard] },
+  { path: 'add', component: CreateAuctionComponent, canActivate: [OktaAuthGuard] },
+  { path: 'bid', component: UpdateAuctionComponent, canActivate: [OktaAuthGuard] },
+  { path: 'bid/:auctionItemId', component: UpdateAuctionComponent, canActivate: [OktaAuthGuard] },
+  { path: 'view', component: AuctionDetailsComponent, canActivate: [OktaAuthGuard] },
+  { path: 'view/:auctionItemId', component: AuctionDetailsComponent, canActivate: [OktaAuthGuard] }
 ];
 
 @NgModule({
