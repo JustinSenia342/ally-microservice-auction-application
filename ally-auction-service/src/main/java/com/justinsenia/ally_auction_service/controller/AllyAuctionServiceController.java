@@ -28,6 +28,7 @@ import com.justinsenia.ally_auction_service.service.AuctionService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+//@RestController
 @RestController @CrossOrigin(origins = "http://localhost:4200")
 //@RequestMapping(path="/api/v1")
 public class AllyAuctionServiceController {
