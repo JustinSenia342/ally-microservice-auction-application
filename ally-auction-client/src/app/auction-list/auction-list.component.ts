@@ -24,6 +24,7 @@ export class AuctionListComponent implements OnInit {
     this.auctions = this.auctionService.getAuctionsList();
   }
 
+/*
   deleteAuction(auctionItemId: number) {
     this.auctionService.deleteAuctionById(auctionItemId)
       .subscribe(
@@ -33,9 +34,14 @@ export class AuctionListComponent implements OnInit {
         },
         error => console.log(error));
   }
+*/
 
   auctionDetails(auctionItemId: number){
     this.router.navigate(['/view', auctionItemId]);
+  }
+
+  bidOnAuction(auctionItemId: number){
+	this.router.navigate(['/bid', auctionItemId]);
   }
 
 }

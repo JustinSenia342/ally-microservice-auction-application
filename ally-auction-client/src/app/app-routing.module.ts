@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'auctions', component: AuctionListComponent, canActivate: [OktaAuthGuard] },
   { path: 'add', component: CreateAuctionComponent, canActivate: [OktaAuthGuard] },
   { path: 'bid', component: UpdateAuctionComponent, canActivate: [OktaAuthGuard] },
+  { path: 'bid/:auctionItemId', component: UpdateAuctionComponent, canActivate: [OktaAuthGuard] },
   { path: 'view', component: AuctionDetailsComponent, canActivate: [OktaAuthGuard] },
   { path: 'view/:auctionItemId', component: AuctionDetailsComponent, canActivate: [OktaAuthGuard] }
 ];
