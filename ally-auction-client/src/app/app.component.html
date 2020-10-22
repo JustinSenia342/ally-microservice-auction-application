@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
   <!-- Links -->
   <ul class="navbar-nav">
+  
     <li class="nav-item">
         <a routerLink="auctions" class="nav-link" routerLinkActive="active">Auction List</a>
     </li>
@@ -13,6 +14,12 @@
 	<li class="nav-item">
         <a routerLink="bid" class="nav-link" routerLinkActive="active">Bidding</a>
     </li>
+	<li class="nav-item">
+		<a *ngIf="!isAuthenticated" routerLink="login" class="nav-link" routerLinkActive="active">Login</a>
+		<a *ngIf="isAuthenticated" routerLink="login" class="nav-link" routerLinkActive="active">Login</a>
+		<button *ngIf="!isAuthenticated" (click)="oktaAuth.loginRedirect()">Login</button>
+        <button *ngIf="isAuthenticated" (click)="oktaAuth.logout()">Logout</button>
+	</li>
   </ul>
 </nav>
 <div class="container">
@@ -21,6 +28,9 @@
   <hr>  
   <div class="card">
     <div class="card-body">
+    
+
+    
   <router-outlet></router-outlet>
     </div>
   </div>
